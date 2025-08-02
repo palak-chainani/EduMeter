@@ -1,1 +1,45 @@
-<p>task-log works!</p>
+<!-- tasklog.component.html -->
+<div class="page-container">
+  <!-- Sidebar Component -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="tasklog-container">
+      <h2>Task Log</h2>
+      
+      <div class="tasklog-table-container">
+        <table class="tasklog-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Type</th>
+              <th>Hours</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of tasks">
+              <td>{{ task.subject }}</td>
+              <td>{{ task.type }}</td>
+              <td>{{ task.hours }}</td>
+              <td>{{ task.date | date:'mediumDate' }}</td>
+              <td>
+                <span class="status-badge" [class.completed]="task.status === 'Completed'"
+                      [class.pending]="task.status === 'Pending'">
+                  {{ task.status }}
+                </span>
+              </td>
+              <td>
+                <button class="action-btn edit" (click)="editTask(task)">Edit</button>
+                <button class="action-btn delete" (click)="deleteTask(task)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

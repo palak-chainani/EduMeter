@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
   menuItems = [
+    { name: 'Faculty Dashboard', active: false },
     { name: 'Add Task', active: false },
     { name: 'My Task Log', active: false },
     { name: 'My summary', active: false },

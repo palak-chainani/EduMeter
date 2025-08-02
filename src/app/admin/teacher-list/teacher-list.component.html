@@ -1,0 +1,42 @@
+<div class="page-container">
+  <!-- Admin Sidebar -->
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <h2>Teacher Management</h2>
+      <button class="add-btn" (click)="navigateToAddTeacher()">
+        <i class="fas fa-plus"></i> Add Teacher
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table class="teacher-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let teacher of teachers">
+            <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
+            <td>{{ teacher.email }}</td>
+            <td>{{ teacher.subject }}</td>
+            <td class="actions">
+              <button class="edit-btn" (click)="editTeacher(teacher.id)">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="delete-btn" (click)="deleteTeacher(teacher.id)">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

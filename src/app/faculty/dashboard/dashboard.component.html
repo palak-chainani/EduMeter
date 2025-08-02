@@ -1,35 +1,44 @@
+<!-- dashboard.component.html -->
 <div class="dashboard-container">
-  <aside class="sidebar">
-    <h3>Sidebar</h3>
-    <!-- Add links or icons here -->
-  </aside>
+  <!-- Fixed Sidebar -->
+  <app-sidebar></app-sidebar>
 
-  <main class="dashboard-content">
-    <header class="dashboard-header">
-      <h2>Welcome Prof</h2>
-    </header>
+  <!-- Main Content Area -->
+  <div class="content-area">
+    <!-- Welcome Header -->
+    <div class="welcome-header">
+      <h2>Welcome Prof. {{ professorName }}</h2>
+    </div>
 
-    <section class="top-row">
-      <div class="card add-task">
-        <h4>Add Task</h4>
-        <!-- Form or placeholder -->
+    <!-- Cards Grid -->
+    <div class="cards-grid">
+      <!-- Add Task Card -->
+      <div class="dashboard-card" (click)="navigateTo('add-task')">
+        <div class="card-icon">➕</div>
+        <h3>Add Task</h3>
+        <p>Add New Task</p>
       </div>
-      <div class="card summary-card">
-        <h4>Summary Card</h4>
-        <!-- Stats or summary data -->
-      </div>
-    </section>
 
-    <section class="bottom-row">
-      <div class="card filter-bar">
-        <h4>Filter Bar</h4>
-        <!-- Filter options -->
+      <!-- Summary Card -->
+      <div class="dashboard-card" (click)="navigateTo('summary')">
+        <div class="card-icon">📊</div>
+        <h3>Summary</h3>
+        <p>View your activity overview</p>
       </div>
-      <div class="card task-log">
-        <h4>Task Log</h4>
-        <!-- Table or list -->
+
+      <!-- Filterbar Card -->
+      <div class="dashboard-card" (click)="navigateTo('filter')">
+        <div class="card-icon">🔍</div>
+        <h3>Filterbar</h3>
+        <p>Filter and search tasks</p>
       </div>
-    </section>
-  </main>
+
+      <!-- Tasklog Card -->
+      <div class="dashboard-card" (click)="navigateTo('tasklog')">
+        <div class="card-icon">📝</div>
+        <h3>Tasklog</h3>
+        <p>View all task history</p>
+      </div>
+    </div>
+  </div>
 </div>
-<app-sidebar></app-sidebar>

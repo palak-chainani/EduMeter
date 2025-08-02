@@ -1,27 +1,28 @@
+// faculty.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AddTaskComponent } from './add-task/add-task.component';
-import { SummaryCardComponent } from './summary-card/summary-card.component';
-import { FilterBarComponent } from './filter-bar/filter-bar.component';
-import { TaskLogComponent } from './task-log/task-log.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SummaryComponent } from './summary/summary.component';
+import { TasklogComponent } from './task-log/task-log.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
+    SidebarComponent,
     AddTaskComponent,
-    SummaryCardComponent,
-    FilterBarComponent,
-    TaskLogComponent,
-    SidebarComponent
+    DashboardComponent,
+    SummaryComponent,
+    TasklogComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule
+  ],
+  exports: [
+    SidebarComponent
   ]
 })
-export class FacultyModule { }
+export class FacultyModule {}
