@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 
 interface Teacher {
   id: number;
@@ -7,6 +6,7 @@ interface Teacher {
   lastName: string;
   email: string;
   subject: string;
+  status: 'Pending' | 'Approved' | 'Rejected';
 }
 
 @Component({
@@ -14,34 +14,61 @@ interface Teacher {
   templateUrl: './teacher-list.component.html',
   styleUrls: ['./teacher-list.component.css']
 })
-export class TeacherListComponent implements OnInit {
+export class TeacherListComponent {
   teachers: Teacher[] = [
-    { id: 1, firstName: 'dolly', lastName: 'mangwani', email: 'dolly@gmail.com', subject: 'Mathematics' },
-    { id: 2, firstName: 'palak', lastName: 'chainani', email: 'palak@gmail.com', subject: 'Physics' },
-    // { id: 3, firstName: 'Robert', lastName: 'Johnson', email: 'robert.j@school.edu', subject: 'Computer Science' },
-    // { id: 4, firstName: 'Emily', lastName: 'Williams', email: 'emily.w@school.edu', subject: 'English' }
+    { 
+      id: 1, 
+      firstName: 'John', 
+      lastName: 'Doe', 
+      email: 'john.doe@school.edu', 
+      subject: 'Mathematics',
+      status: 'Approved'
+    },
+    { 
+      id: 2, 
+      firstName: 'Jane', 
+      lastName: 'Smith', 
+      email: 'jane.smith@school.edu', 
+      subject: 'Physics',
+      status: 'Pending'
+    },
+    { 
+      id: 3, 
+      firstName: 'Robert', 
+      lastName: 'Johnson', 
+      email: 'robert.j@school.edu', 
+      subject: 'Computer Science',
+      status: 'Rejected'
+    }
   ];
 
-  constructor(private router: Router) {}
+  getStatusClass(status: string): string {
+    return `status-${status.toLowerCase()}`;
+  }
 
-  ngOnInit(): void {
-    // In a real app, you would fetch teachers from a service here
-    // this.teacherService.getTeachers().subscribe(teachers => this.teachers = teachers);
+  updateStatus(teacherId: number, newStatus: 'Approved' | 'Rejected'): void {
+    const teacher = this.teachers.find(t => t.id === teacherId);
+    if (teacher) {
+      teacher.status = newStatus;
+      // In a real app, you would call a service to update the status
+      console.log(`Updated teacher ${teacherId} status to ${newStatus}`);
+    }
   }
 
   navigateToAddTeacher(): void {
-    this.router.navigate(['/admin/add-teacher']);
+    console.log('Navigate to add teacher');
+    // Implement navigation
   }
 
   editTeacher(id: number): void {
-    this.router.navigate(['/admin/edit-teacher', id]);
+    console.log('Edit teacher', id);
+    // Implement edit
   }
 
   deleteTeacher(id: number): void {
     if (confirm('Are you sure you want to delete this teacher?')) {
-      // In a real app, you would call a service to delete the teacher
       this.teachers = this.teachers.filter(teacher => teacher.id !== id);
-      console.log(`Teacher with ID ${id} deleted`);
+      console.log('Deleted teacher', id);
     }
   }
 }

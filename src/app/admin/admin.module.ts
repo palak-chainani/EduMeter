@@ -5,15 +5,17 @@ import { RouterModule } from '@angular/router';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AddTeacherComponent } from './add-teacher/add-teacher.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeacherListComponent } from './teacher-list/teacher-list.component';
+import { SalaryCalculationComponent } from './salary-calculation/salary-calculation.component';
 
 @NgModule({
-  declarations: [AdminSidebarComponent, AdminDashboardComponent, AddTeacherComponent, TeacherListComponent],
+  declarations: [AdminSidebarComponent, AdminDashboardComponent, AddTeacherComponent, TeacherListComponent, SalaryCalculationComponent],
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     AdminSidebarComponent

@@ -8,6 +8,7 @@ import { TasklogComponent } from './faculty/task-log/task-log.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AddTeacherComponent } from './admin/add-teacher/add-teacher.component';
 import { TeacherListComponent } from './admin/teacher-list/teacher-list.component';
+import { SalaryCalculationComponent } from './admin/salary-calculation/salary-calculation.component';
 
 const routes: Routes = [
   
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'teacher-list',
     component: TeacherListComponent
+  },
+  {
+    path: 'salary-calculation',
+    component: SalaryCalculationComponent
   },
   { path: '**', 
     redirectTo: 'login',

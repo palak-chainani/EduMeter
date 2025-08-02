@@ -18,6 +18,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Subject</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -26,12 +27,23 @@
             <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
             <td>{{ teacher.email }}</td>
             <td>{{ teacher.subject }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(teacher.status)">
+                {{ teacher.status }}
+              </span>
+            </td>
             <td class="actions">
               <button class="edit-btn" (click)="editTeacher(teacher.id)">
                 <i class="fas fa-edit"></i> Edit
               </button>
               <button class="delete-btn" (click)="deleteTeacher(teacher.id)">
                 <i class="fas fa-trash"></i> Delete
+              </button>
+              <button *ngIf="teacher.status === 'Pending'" class="approve-btn" (click)="updateStatus(teacher.id, 'Approved')">
+                <i class="fas fa-check"></i> Approve
+              </button>
+              <button *ngIf="teacher.status === 'Pending'" class="reject-btn" (click)="updateStatus(teacher.id, 'Rejected')">
+                <i class="fas fa-times"></i> Reject
               </button>
             </td>
           </tr>

@@ -1,0 +1,76 @@
+<div class="page-container">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="main-content">
+    <div class="header">
+      <h2>Salary Calculation</h2>
+      <div class="controls">
+        <div class="filter-group">
+          <label for="monthSelect">Month:</label>
+          <select id="monthSelect" [(ngModel)]="selectedMonth" (change)="calculateSalaries()">
+            <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
+          </select>
+        </div>
+        <button class="generate-btn" (click)="generateReport()">
+          <i class="fas fa-file-export"></i> Generate Report
+        </button>
+      </div>
+    </div>
+
+    <div class="rate-controls">
+      <h3>Rate Configuration</h3>
+      <div class="rate-inputs">
+        <div class="rate-group">
+          <label for="lectureRate">Lecture Rate:</label>
+          <input id="lectureRate" type="number" [(ngModel)]="rates.lecture" (change)="updateRates()">
+        </div>
+        <div class="rate-group">
+          <label for="practicalRate">Practical Rate:</label>
+          <input id="practicalRate" type="number" [(ngModel)]="rates.practical" (change)="updateRates()">
+        </div>
+        <div class="rate-group">
+          <label for="projectRate">Project Meeting Rate:</label>
+          <input id="projectRate" type="number" [(ngModel)]="rates.projectMeeting" (change)="updateRates()">
+        </div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="salary-table">
+        <thead>
+          <tr>
+            <th>Teacher Name</th>
+            <th>Type</th>
+            <th>Rate (₹)</th>
+            <th>Total Hours</th>
+            <th>Pay (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let teacher of teachers; let i = index">
+            <td>{{ teacher.name }}</td>
+            <td>
+              <select [(ngModel)]="teacher.type" (ngModelChange)="updateTeacherPay(teacher)" [name]="'type_' + i">
+                <option value="lecture">Lecture</option>
+                <option value="practical">Practical</option>
+                <option value="projectMeeting">Project Meeting</option>
+              </select>
+            </td>
+            <td>{{ getRate(teacher.type) | currency:'INR':'symbol':'1.0-0' }}</td>
+            <td>
+              <input type="number" [(ngModel)]="teacher.hours" (ngModelChange)="updateTeacherPay(teacher)" 
+                     [name]="'hours_' + i" min="0" step="0.5">
+            </td>
+            <td>{{ teacher.pay | currency:'INR':'symbol':'1.0-0' }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="total-label">Total Payroll</td>
+            <td class="total-amount">{{ totalPayroll | currency:'INR':'symbol':'1.0-0' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
