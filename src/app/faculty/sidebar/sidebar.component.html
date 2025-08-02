@@ -1,0 +1,15 @@
+<!-- sidebar.component.html -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2>EduMeter</h2>
+    <p class="subtitle">Faculty Tracker</p>
+  </div>
+
+  <div class="sidebar-menu">
+    <div *ngFor="let item of menuItems" 
+         class="menu-item"
+         [class.active]="item.active">
+      {{item.name}}
+    </div>
+  </div>
+</div>

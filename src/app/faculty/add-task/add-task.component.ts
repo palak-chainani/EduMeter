@@ -25,4 +25,5 @@ export class AddTaskComponent {
       console.log(this.taskForm.value);
     }
   }
+
 }

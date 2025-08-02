@@ -16,11 +16,18 @@ const routes: Routes = [
     path:'dashboard',
     component:DashboardComponent
   },
+import { DashboardComponent } from './faculty/dashboard/dashboard.component';
+
+const routes: Routes = [
   { path: '**', 
     redirectTo: 'login',
      pathMatch: 'full'
   },
-  
+  { path: 'faculty-dashboard',
+    component: DashboardComponent 
+  },
+
+  // { path: 'admin-dashboard', component: AdminDashboardComponent }
 ];
 
 @NgModule({
