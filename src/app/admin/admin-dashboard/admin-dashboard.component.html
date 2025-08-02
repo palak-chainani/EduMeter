@@ -1,1 +1,47 @@
-<app-admin-sidebar></app-admin-sidebar>
+<div class="page-container">
+  <!-- Admin Sidebar -->
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Admin Dashboard</h2>
+    
+    <div class="cards-container">
+      <!-- Add Teacher Card -->
+      <div class="dashboard-card" (click)="navigateTo('add-teacher')">
+        <div class="card-icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h3>Add Teacher</h3>
+        <p>Register new faculty members</p>
+      </div>
+
+      <!-- Pending Approvals Card -->
+      <div class="dashboard-card" (click)="navigateTo('pending-approvals')">
+        <div class="card-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <h3>Pending Approvals</h3>
+        <p>Review and approve requests</p>
+      </div>
+
+      <!-- Salary Calculation Card -->
+      <div class="dashboard-card" (click)="navigateTo('salary-calculation')">
+        <div class="card-icon">
+          <i class="fas fa-calculator"></i>
+        </div>
+        <h3>Salary Calculation</h3>
+        <p>Process faculty payments</p>
+      </div>
+
+      <!-- Teacher List Card -->
+      <div class="dashboard-card" (click)="navigateTo('teacher-list')">
+        <div class="card-icon">
+          <i class="fas fa-list-ul"></i>
+        </div>
+        <h3>Teacher List</h3>
+        <p>View all faculty members</p>
+      </div>
+    </div>
+  </div>
+</div>
