@@ -1,0 +1,54 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #FFEAEA;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #748DAE;
+  color: white;
+  padding: 2rem 1rem;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.top-row,
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #9ECAD6;
+}
