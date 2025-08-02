@@ -1,31 +1,21 @@
-import { NgModule } from '@angular/core';
+// app.module.ts
 import { BrowserModule } from '@angular/platform-browser';
-
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
 import { FacultyModule } from './faculty/faculty.module';
 import { AdminModule } from './admin/admin.module';
-import { SharedModule } from './shared/shared.module';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule,
     FacultyModule,
     AdminModule,
-    SharedModule,
-    ReactiveFormsModule,
-    RouterModule,
+    AuthModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

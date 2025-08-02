@@ -1,0 +1,98 @@
+/* summary.component.css */
+.page-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 250px; 
+}
+
+.summary-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.summary-container h2{
+    margin-bottom: 20px;
+}
+
+
+
+.totals-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.total-card {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.total-card h3 {
+  margin-top: 0;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.total-card p {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.5rem 0 0;
+  color: #2c3e50;
+}
+
+.subject-stats {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.subject-stats h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.stats-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.stats-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .totals-row {
+    flex-direction: column;
+  }
+}

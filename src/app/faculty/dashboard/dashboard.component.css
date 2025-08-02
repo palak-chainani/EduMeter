@@ -1,0 +1,61 @@
+/* dashboard.component.css */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-area {
+  margin-left: 250px; /* Same as sidebar width */
+  width: calc(100% - 250px);
+  padding: 20px;
+}
+
+.welcome-header {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.welcome-header h2 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.dashboard-card h3 {
+  margin: 0 0 10px;
+  color: #2c3e50;
+}
+
+.dashboard-card p {
+  margin: 0;
+  color: #7f8c8d;
+}

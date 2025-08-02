@@ -1,1 +1,44 @@
-<app-sidebar></app-sidebar>
+<!-- dashboard.component.html -->
+<div class="dashboard-container">
+  <!-- Fixed Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content Area -->
+  <div class="content-area">
+    <!-- Welcome Header -->
+    <div class="welcome-header">
+      <h2>Welcome Prof. {{ professorName }}</h2>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="cards-grid">
+      <!-- Add Task Card -->
+      <div class="dashboard-card" (click)="navigateTo('add-task')">
+        <div class="card-icon">➕</div>
+        <h3>Add Task</h3>
+        <p>Add New Task</p>
+      </div>
+
+      <!-- Summary Card -->
+      <div class="dashboard-card" (click)="navigateTo('summary')">
+        <div class="card-icon">📊</div>
+        <h3>Summary</h3>
+        <p>View your activity overview</p>
+      </div>
+
+      <!-- Filterbar Card -->
+      <div class="dashboard-card" (click)="navigateTo('filter')">
+        <div class="card-icon">🔍</div>
+        <h3>Filterbar</h3>
+        <p>Filter and search tasks</p>
+      </div>
+
+      <!-- Tasklog Card -->
+      <div class="dashboard-card" (click)="navigateTo('tasklog')">
+        <div class="card-icon">📝</div>
+        <h3>Tasklog</h3>
+        <p>View all task history</p>
+      </div>
+    </div>
+  </div>
+</div>
