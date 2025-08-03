@@ -10,12 +10,13 @@ import { DatabaseService } from 'src/app/database.service';
 })
 export class AddTaskComponent implements OnInit {
   taskForm!: FormGroup;
+  isEditMode = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private databaseService: DatabaseService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -35,44 +36,44 @@ this.taskForm = this.fb.group({
 
 
 
-    // Set default date to today
-    const today = new Date().toISOString().split('T')[0];
-    this.taskForm.patchValue({ date: today });
+    
+    const taskToEdit = this.databaseService.getTaskToEdit();
+
+    if (taskToEdit) {
+      this.isEditMode = true;
+
+      this.taskForm.patchValue({
+        subject: taskToEdit.subject,
+        type: taskToEdit.type,
+        date: new Date(taskToEdit.date).toISOString().substring(0, 10),
+        time: taskToEdit.time,
+        description: taskToEdit.description
+      });
+
+    } else {
+      const today = new Date().toISOString().split('T')[0];
+      this.taskForm.patchValue({ date: today });
+    }
   }
 
   onSubmit(data: any): void {
-  console.log(this.taskForm.value);
+    if (this.taskForm.valid) {
+      if (this.isEditMode) {
+        this.databaseService.updateTask(data);
+        this.databaseService.clearTaskToEdit();
+        alert('Task updated successfully!');
+      } else {
+        this.databaseService.addTask(data);
+        alert('Task added successfully!');
+      }
 
-  if (this.taskForm.valid) {
-    // 1. Save to database (your original logic)
-    this.databaseService.addTask(data);
-
-    // 2. Save to localStorage
-   const taskToAdd = {
-  subject: data.subject,
-  type: data.type,
-  date: data.date,
-  time: data.time,
-  description: data.description,
-  lectures: data.lectures || '', 
-  practicals: data.practicals || '',
-  hours: data.hours || ''
-};
-
-
-    const existingTasks = JSON.parse(localStorage.getItem('facultyTasks') || '[]');
-    existingTasks.push(taskToAdd);
-    localStorage.setItem('facultyTasks', JSON.stringify(existingTasks));
-    this.taskForm.reset();
-
-    const today = new Date().toISOString().split('T')[0];
-    this.taskForm.patchValue({ date: today });
-
-    alert('Task added successfully!');
-  } else {
-    this.markFormGroupTouched(this.taskForm);
+      this.taskForm.reset();
+      this.router.navigate(['/faculty/task-log']);
+    } else {
+      this.markFormGroupTouched(this.taskForm);
+    }
   }
-}
+
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
@@ -82,9 +83,15 @@ this.taskForm = this.fb.group({
       }
     });
   }
-  get subject() { return this.taskForm.get('subject'); }
-  get type() { return this.taskForm.get('type'); }
-  get date() { return this.taskForm.get('date'); }
-  get time() { return this.taskForm.get('time'); }
-  get description() { return this.taskForm.get('description'); }
+
+  get subject()
+     { return this.taskForm.get('subject'); }
+  get type()  
+    { return this.taskForm.get('type'); }
+  get date()
+     { return this.taskForm.get('date'); }
+  get time()
+     { return this.taskForm.get('time'); }
+  get description()
+     { return this.taskForm.get('description'); }
 }

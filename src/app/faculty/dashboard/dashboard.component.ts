@@ -8,7 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  professorName = 'John Doe'; // Replace with dynamic data
+  currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+  professorName = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
+ 
 
   constructor(private router: Router) {}
 
