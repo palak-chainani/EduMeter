@@ -4,76 +4,77 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DatabaseService {
+
   teachers: any[] = [];
   tasks: any[] = [];
-  subjectDetails!: any;
-  taskToEdit: any = null;
+  subjectDetails: any[] = [];
 
   constructor() {
     const savedTeachers = localStorage.getItem('teachers');
     const savedTasks = localStorage.getItem('tasks');
-    this.teachers = savedTeachers ? JSON.parse(savedTeachers) : [];
-    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];  }
+    const savedDetails = localStorage.getItem('subjectDetails');
 
-  // ✅ Teacher Methods
+    this.teachers = savedTeachers ? JSON.parse(savedTeachers) : [];
+    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
+    this.subjectDetails = savedDetails ? JSON.parse(savedDetails) : [];
+  }
+
+  // ✅ Teacher
   addNewTeacher(data: any) {
     this.teachers.push(data);
     localStorage.setItem('teachers', JSON.stringify(this.teachers));
   }
+
   getTeachers() {
     return this.teachers;
   }
 
- // ✅ Tasks
-  getTasks() {
-    // Hamesha fresh localStorage se read karo
-    const savedTasks = localStorage.getItem('tasks');
-    return savedTasks ? JSON.parse(savedTasks) : [];
+  // ✅ Subject Details
+  getSubjectDetails() {
+    return this.subjectDetails;
   }
+
+  addsubjectDetails(data: any) {
+    this.subjectDetails.push(data);
+    localStorage.setItem('subjectDetails', JSON.stringify(this.subjectDetails));
+  }
+
+  // ✅ Add Task
   addTask(data: any) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
-    const addnewSubject = {
-      ...data,
-      subjectName: data.subjectName,
-    };
 
-    this.subjectDetails.push(addnewSubject);
-    localStorage.setItem('subjectDetails', JSON.stringify(this.subjectDetails));
     const taskWithMeta = {
       ...data,
       assignedBy: `${currentUser.firstName} ${currentUser.lastName}`,
-      status: 'Pending',
-      hours: 0 // 
+      status: 'Pending',   // default
+      hours: 0             // default
     };
-    const taskWithTeacher = {
-      ...data,
-      assignedBy: currentUser.firstName + ' ' + currentUser.lastName
-    };
+
     this.tasks.push(taskWithMeta);
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
-  
+
+  getTasks() {
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  }
+
   deleteTask(taskToDelete: any) {
-  const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-
-  // tasks list ko filter karo jo match na kare
-  const updatedTasks = savedTasks.filter((task: any) => {
-    return !(
-      task.subject === taskToDelete.subject &&
-      task.date === taskToDelete.date &&
-      task.time === taskToDelete.time && // unique banane ke liye time bhi le lo
-      task.assignedBy === taskToDelete.assignedBy
+    const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    const updatedTasks = savedTasks.filter(
+      (task: any) =>
+        !(
+          task.subject === taskToDelete.subject &&
+          task.date === taskToDelete.date &&
+          task.time === taskToDelete.time &&
+          task.assignedBy === taskToDelete.assignedBy
+        )
     );
-  });
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    this.tasks = updatedTasks;
+  }
 
-  // localStorage update karo
-  localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-
-  // service ke local array ko bhi update karo
-  this.tasks = updatedTasks;
-}
-
-
+  // ✅ Edit flow
   setTaskToEdit(task: any) {
     localStorage.setItem('taskToEdit', JSON.stringify(task));
   }
@@ -86,13 +87,6 @@ export class DatabaseService {
   clearTaskToEdit() {
     localStorage.removeItem('taskToEdit');
   }
-
-  
-  getSubjectDetails() {
-  const savedDetails = localStorage.getItem('subjectDetails');
-  return savedDetails ? JSON.parse(savedDetails) : [];
-}
-
 
   updateTask(updatedTask: any) {
     const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
@@ -112,9 +106,19 @@ export class DatabaseService {
       };
       localStorage.setItem('tasks', JSON.stringify(tasks));
       this.tasks = tasks;
-    }   
+    }
   }
-clearTeachingSummary() {
+
+  saveTeachingSummary(summary: any) {
+    localStorage.setItem('teachingSummaryData', JSON.stringify(summary));
+  }
+
+  getTeachingSummary() {
+    const saved = localStorage.getItem('teachingSummaryData');
+    return saved ? JSON.parse(saved) : null;
+  }
+
+  clearTeachingSummary() {
     localStorage.removeItem('teachingSummaryData');
   }
 }

@@ -11,6 +11,7 @@ import { DatabaseService } from 'src/app/database.service';
 export class AddTaskComponent implements OnInit {
   taskForm!: FormGroup;
   isEditMode = false;
+  taskToEdit: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -19,74 +20,43 @@ export class AddTaskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  initializeForm(): void {
     this.taskForm = this.fb.group({
-      subject: ['', [Validators.required, Validators.maxLength(100)]],
+      subject: ['', Validators.required],
       type: ['', Validators.required],
       date: ['', Validators.required],
       time: ['', Validators.required],
-      description: ['', [Validators.maxLength(500)]]
+      description: ['']
     });
 
-    
-    const taskToEdit = this.databaseService.getTaskToEdit();
-
-    if (taskToEdit) {
+    this.taskToEdit = this.databaseService.getTaskToEdit();
+    if (this.taskToEdit) {
       this.isEditMode = true;
-
       this.taskForm.patchValue({
-        subject: taskToEdit.subject,
-        type: taskToEdit.type,
-        date: new Date(taskToEdit.date).toISOString().substring(0, 10),
-        time: taskToEdit.time,
-        description: taskToEdit.description
+        subject: this.taskToEdit.subject,
+        type: this.taskToEdit.type,
+        date: this.taskToEdit.date,
+        time: this.taskToEdit.time,
+        description: this.taskToEdit.description
       });
-
-    } else {
-      const today = new Date().toISOString().split('T')[0];
-      this.taskForm.patchValue({ date: today });
     }
   }
 
-  onSubmit(data: any): void {
+  onSubmit() {
     if (this.taskForm.valid) {
+      const formValue = this.taskForm.value;
+
       if (this.isEditMode) {
-        this.databaseService.updateTask(data);
+        const updatedTask = {
+          ...this.taskToEdit,
+          ...formValue
+        };
+        this.databaseService.updateTask(updatedTask);
         this.databaseService.clearTaskToEdit();
-        alert('Task updated successfully!');
       } else {
-        this.databaseService.addTask(data);
-        alert('Task added successfully!');
+        this.databaseService.addTask(formValue);
       }
 
-      this.taskForm.reset();
       this.router.navigate(['/faculty/task-log']);
-    } else {
-      this.markFormGroupTouched(this.taskForm);
     }
   }
-
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
-  get subject()
-     { return this.taskForm.get('subject'); }
-  get type()  
-    { return this.taskForm.get('type'); }
-  get date()
-     { return this.taskForm.get('date'); }
-  get time()
-     { return this.taskForm.get('time'); }
-  get description()
-     { return this.taskForm.get('description'); }
 }
