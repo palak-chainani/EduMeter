@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
       
       // Save current user in localStorage
       if(matchedUser){
-        localStorage.setItem('currentUser', JSON.stringify('matchedUser'))
+        localStorage.setItem('currentUser', JSON.stringify(matchedUser))
       }
 
       if(matchedUser.role === 'admin')

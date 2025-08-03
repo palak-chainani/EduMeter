@@ -1,61 +1,44 @@
-// tasklog.component.ts
-import { Component } from '@angular/core';
-
-interface Task {
-  subject: string;
-  type: string;
-  hours: number;
-  date: Date;
-  status: 'Completed' | 'Pending' | 'Rejected';
-}
+import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from 'src/app/database.service';
+import { Tasks } from 'src/app/interfaces/task.interface';
 
 @Component({
   selector: 'app-tasklog',
   templateUrl: './task-log.component.html',
   styleUrls: ['./task-log.component.css']
 })
-export class TasklogComponent {
-  tasks: Task[] = [
-    {
-      subject: 'Mathematics',
-      type: 'Lecture',
-      hours: 2,
-      date: new Date('2023-05-15'),
-      status: 'Completed'
-    },
-    {
-      subject: 'Physics',
-      type: 'Practical',
-      hours: 3,
-      date: new Date('2023-05-16'),
-      status: 'Pending'
-    },
-    {
-      subject: 'Computer Science',
-      type: 'Seminar',
-      hours: 1.5,
-      date: new Date('2023-05-17'),
-      status: 'Completed'
-    },
-    {
-      subject: 'Chemistry',
-      type: 'Lab',
-      hours: 2,
-      date: new Date('2023-05-18'),
-      status: 'Pending'
-    }
-  ];
+export class TasklogComponent implements OnInit {
+  tasks: Tasks[] = [];
 
-  editTask(task: Task) {
-    // Implement edit functionality
+  constructor(private databaseService: DatabaseService) {}
+
+  ngOnInit() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+    const allTasks = this.databaseService.getTasks();
+
+    this.tasks = allTasks
+      .filter((task: Tasks) => task.assignedBy === `${currentUser.firstName} ${currentUser.lastName}`)
+      .map((task: Tasks) => ({
+        ...task,
+        date: new Date(task.date)
+      }));
+  }
+
+  editTask(task: Tasks) {
     console.log('Editing task:', task);
   }
 
-  deleteTask(task: Task) {
-    // Implement delete functionality
+  deleteTask(task: Tasks) {
     const index = this.tasks.indexOf(task);
     if (index !== -1) {
       this.tasks.splice(index, 1);
+
+      const allTasks = this.databaseService.getTasks();
+      const globalIndex = allTasks.indexOf(task);
+      if (globalIndex !== -1) {
+        allTasks.splice(globalIndex, 1);
+        localStorage.setItem('tasks', JSON.stringify(allTasks));
+      }
     }
   }
 }

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class SidebarComponent {
   menuItems = [
-    { name: 'Faculty Dashboard', path: '/faculty-dashboard', active: false },
+    { name: 'Faculty Dashboard', path: '/faculty/faculty-dashboard', active: false },
     { name: 'Add Task', path: '/faculty/add-task', active: false },
     { name: 'My Task Log', path:'/faculty/task-log', active: false },
     { name: 'My summary', path:'/faculty/summary', active: false },

@@ -20,13 +20,25 @@ export class DatabaseService {
     localStorage.setItem('teachers', JSON.stringify(this.teachers));
   }
 
+  getTasks(){
+    return this.tasks
+  }
+
   getTeachers(){
     return this.teachers;
   }
 
-  addTask(data:any){
-    this.tasks.push(data)
-    localStorage.setItem('tasks',JSON.stringify(this.tasks));
-  }
+  addTask(data: any) {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+
+  const taskWithTeacher = {
+    ...data, 
+    assignedBy: currentUser.firstName + ' ' + currentUser.lastName
+  };
+
+  this.tasks.push(taskWithTeacher);
+  localStorage.setItem('tasks', JSON.stringify(this.tasks));
+}
+
   
 }
