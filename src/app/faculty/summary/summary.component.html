@@ -1,4 +1,3 @@
-<!-- summary.component.html -->
 <div class="page-container">
   <!-- Sidebar Component -->
   <app-sidebar></app-sidebar>
@@ -6,25 +5,33 @@
   <!-- Main Content -->
   <div class="main-content">
     <div class="summary-container">
+      
+      <!-- Month Selection -->
+      <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="form-control month-dropdown" style="margin-bottom: 1rem;">
+        <option *ngFor="let month of months" [value]="month.value">
+          {{ month.name }}
+        </option>
+      </select>
+
       <h2>Teaching Summary</h2>
       
       <!-- Totals Cards -->
       <div class="totals-row">
         <div class="total-card">
           <h3>Total Lectures</h3>
-          <p>30</p>
+          <p>{{ teachingData.lectures }}</p>
         </div>
         <div class="total-card">
           <h3>Total Practicals</h3>
-          <p>18</p>
+          <p>{{ teachingData.practicals }}</p>
         </div>
         <div class="total-card">
           <h3>Total Hours</h3>
-          <p>69</p>
+          <p>{{ teachingData.totalHours }}</p>
         </div>
       </div>
 
-      <!-- Subject-wise Statistics Table -->
+      <!-- Subject-wise Statistics -->
       <div class="subject-stats">
         <h3>Subject-wise Statistics</h3>
         <table class="stats-table">
@@ -36,28 +43,17 @@
               <th>Hours</th>
             </tr>
           </thead>
+        
           <tbody>
-            <tr>
-              <td>Mathematics</td>
-              <td>12</td>
-              <td>4</td>
-              <td>24</td>
+            <tr *ngFor="let subject of subjectDetails">
+              <td>{{ subject.name }}</td>
+              <td>{{ subject.lectures }}</td>
+              <td>{{ subject.practicals }}</td>
+              <td>{{ subject.hours }}</td>
             </tr>
-            <tr>
-              <td>Physics</td>
-              <td>8</td>
-              <td>6</td>
-              <td>20</td>
-            </tr>
-            <tr>
-              <td>Computer Science</td>
-              <td>10</td>
-              <td>8</td>
-              <td>25</td>
-            </tr>
-          </tbody>
         </table>
       </div>
+
     </div>
   </div>
 </div>

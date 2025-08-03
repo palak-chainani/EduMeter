@@ -10,7 +10,7 @@ import { TeacherListComponent } from './teacher-list/teacher-list.component';
 import { SalaryCalculationComponent } from './salary-calculation/salary-calculation.component';
 
 @NgModule({
-  declarations: [AdminSidebarComponent, AdminDashboardComponent, AddTeacherComponent, TeacherListComponent, SalaryCalculationComponent],
+  declarations: [AdminSidebarComponent, AdminDashboardComponent, AddTeacherComponent, TeacherListComponent,   SalaryCalculationComponent],
   imports: [
     CommonModule,
     RouterModule,

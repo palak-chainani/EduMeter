@@ -1,7 +1,7 @@
 // faculty.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddTaskComponent } from './add-task/add-task.component';
@@ -19,7 +19,8 @@ import { TasklogComponent } from './task-log/task-log.component';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     SidebarComponent

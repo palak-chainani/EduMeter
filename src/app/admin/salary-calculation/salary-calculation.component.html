@@ -11,9 +11,11 @@
             <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
           </select>
         </div>
-        <button class="generate-btn" (click)="generateReport()">
+        <div id="report-section">
+        <button class="generate-btn">
           <i class="fas fa-file-export"></i> Generate Report
         </button>
+        </div>
       </div>
     </div>
 
@@ -64,12 +66,12 @@
             <td>{{ teacher.pay | currency:'INR':'symbol':'1.0-0' }}</td>
           </tr>
         </tbody>
-        <tfoot>
+        <!-- <tfoot>
           <tr>
             <td colspan="4" class="total-label">Total Payroll</td>
             <td class="total-amount">{{ totalPayroll | currency:'INR':'symbol':'1.0-0' }}</td>
           </tr>
-        </tfoot>
+        </tfoot> -->
       </table>
     </div>
   </div>
