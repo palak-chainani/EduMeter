@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent {
+   currentUser = JSON.parse(localStorage.getItem('currentUser')!);
   constructor(private router: Router) {}
 
   navigateTo(route: string): void {

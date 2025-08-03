@@ -10,12 +10,13 @@ import { DatabaseService } from 'src/app/database.service';
 })
 export class AddTaskComponent implements OnInit {
   taskForm!: FormGroup;
+  isEditMode = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private databaseService: DatabaseService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -30,28 +31,44 @@ export class AddTaskComponent implements OnInit {
       description: ['', [Validators.maxLength(500)]]
     });
 
-    // Set default date to today
-    const today = new Date().toISOString().split('T')[0];
-    this.taskForm.patchValue({ date: today });
+    
+    const taskToEdit = this.databaseService.getTaskToEdit();
+
+    if (taskToEdit) {
+      this.isEditMode = true;
+
+      this.taskForm.patchValue({
+        subject: taskToEdit.subject,
+        type: taskToEdit.type,
+        date: new Date(taskToEdit.date).toISOString().substring(0, 10),
+        time: taskToEdit.time,
+        description: taskToEdit.description
+      });
+
+    } else {
+      const today = new Date().toISOString().split('T')[0];
+      this.taskForm.patchValue({ date: today });
+    }
   }
 
-  onSubmit(data:any): void {
-    console.log(this.taskForm.value)
+  onSubmit(data: any): void {
     if (this.taskForm.valid) {
-      this.databaseService.addTask(data);
+      if (this.isEditMode) {
+        this.databaseService.updateTask(data);
+        this.databaseService.clearTaskToEdit();
+        alert('Task updated successfully!');
+      } else {
+        this.databaseService.addTask(data);
+        alert('Task added successfully!');
+      }
 
-      // Reset form after submission
       this.taskForm.reset();
-      
-      alert('Task added successfully!');
+      this.router.navigate(['/faculty/task-log']);
     } else {
-      // Mark all fields as touched to show validation messages
       this.markFormGroupTouched(this.taskForm);
     }
   }
 
-
-  // Helper method to mark all form fields as touched
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
@@ -62,10 +79,14 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-  // Convenience getters for easy access in template
-  get subject() { return this.taskForm.get('subject'); }
-  get type() { return this.taskForm.get('type'); }
-  get date() { return this.taskForm.get('date'); }
-  get time() { return this.taskForm.get('time'); }
-  get description() { return this.taskForm.get('description'); }
+  get subject()
+     { return this.taskForm.get('subject'); }
+  get type()  
+    { return this.taskForm.get('type'); }
+  get date()
+     { return this.taskForm.get('date'); }
+  get time()
+     { return this.taskForm.get('time'); }
+  get description()
+     { return this.taskForm.get('description'); }
 }

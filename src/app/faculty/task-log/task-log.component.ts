@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DatabaseService } from 'src/app/database.service';
 import { Tasks } from 'src/app/interfaces/task.interface';
 
@@ -10,7 +11,7 @@ import { Tasks } from 'src/app/interfaces/task.interface';
 export class TasklogComponent implements OnInit {
   tasks: Tasks[] = [];
 
-  constructor(private databaseService: DatabaseService) {}
+  constructor(private databaseService: DatabaseService, private router:Router) {}
 
   ngOnInit() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
@@ -24,21 +25,25 @@ export class TasklogComponent implements OnInit {
       }));
   }
 
+   //edit button pe call hoga
   editTask(task: Tasks) {
-    console.log('Editing task:', task);
+    this.databaseService.setTaskToEdit(task); // temp store karo
+    this.router.navigate(['faculty/add-task']); // Add Task page pe jao
   }
 
-  deleteTask(task: Tasks) {
-    const index = this.tasks.indexOf(task);
-    if (index !== -1) {
-      this.tasks.splice(index, 1);
+deleteTask(task: any) {
+  this.databaseService.deleteTask(task);
 
-      const allTasks = this.databaseService.getTasks();
-      const globalIndex = allTasks.indexOf(task);
-      if (globalIndex !== -1) {
-        allTasks.splice(globalIndex, 1);
-        localStorage.setItem('tasks', JSON.stringify(allTasks));
-      }
-    }
-  }
+  const allTasks = this.databaseService.getTasks();
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+
+  this.tasks = allTasks.filter(
+    (t: any) =>
+      t.assignedBy === `${currentUser.firstName} ${currentUser.lastName}`
+  );
+}
+
+
+
+
 }
