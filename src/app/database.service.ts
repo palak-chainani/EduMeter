@@ -34,10 +34,7 @@ export class DatabaseService {
     return this.subjectDetails;
   }
 
-  addsubjectDetails(data: any) {
-    this.subjectDetails.push(data);
-    localStorage.setItem('subjectDetails', JSON.stringify(this.subjectDetails));
-  }
+
 
   // ✅ Add Task
   addTask(data: any) {
@@ -78,7 +75,10 @@ export class DatabaseService {
   setTaskToEdit(task: any) {
     localStorage.setItem('taskToEdit', JSON.stringify(task));
   }
-
+  addsubjectDetails(data: any) {
+    this.subjectDetails.push(data);
+    localStorage.setItem('subjectDetails', JSON.stringify(this.subjectDetails));
+  }
   getTaskToEdit() {
     const task = localStorage.getItem('taskToEdit');
     return task ? JSON.parse(task) : null;

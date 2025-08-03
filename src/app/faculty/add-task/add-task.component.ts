@@ -27,6 +27,22 @@ export class AddTaskComponent implements OnInit {
       time: ['', Validators.required],
       description: ['']
     });
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
+this.taskForm = this.fb.group({
+  subject: ['', [Validators.required, Validators.maxLength(100)]],
+  type: ['', Validators.required],
+  date: ['', Validators.required],
+  time: ['', Validators.required],
+  description: ['', [Validators.maxLength(500)]],
+  lectures: [''],
+  practicals: [''],
+  hours: ['']
+});
+
+
 
     this.taskToEdit = this.databaseService.getTaskToEdit();
     if (this.taskToEdit) {

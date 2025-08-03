@@ -14,6 +14,7 @@ export class SidebarComponent {
     { name: 'My Task Log', path:'/faculty/task-log', active: false },
     { name: 'My summary', path:'/faculty/summary', active: false },
     { name: 'Logout Type', path:'/logout', active: false }, 
+    { name: 'Filter Tasks', path:'/faculty/filterbar', active: false }
  
   ];
 

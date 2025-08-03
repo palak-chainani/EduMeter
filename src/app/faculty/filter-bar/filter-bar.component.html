@@ -1,0 +1,36 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="filter-bar">
+      <label for="date">Select Date:</label>
+      <input type="date" [(ngModel)]="filterDate" />
+      <button (click)="applyFilter()">Apply Filter</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Date</th>
+          <th>Lectures</th>
+          <th>Practicals</th>
+          <th>Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of filteredTasks">
+          <td>{{ task.subject }}</td> 
+          <td>{{ task.date }}</td>
+          <td>{{ task.lectures }}</td>
+          <td>{{ task.practicals }}</td>
+          <td>{{ task.hours }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
