@@ -22,36 +22,57 @@ export class AddTaskComponent implements OnInit {
   }
 
   initializeForm(): void {
-    this.taskForm = this.fb.group({
-      subject: ['', [Validators.required, Validators.maxLength(100)]],
-      type: ['', Validators.required],
-      date: ['', Validators.required],
-      time: ['', Validators.required],
-      description: ['', [Validators.maxLength(500)]]
-    });
+this.taskForm = this.fb.group({
+  subject: ['', [Validators.required, Validators.maxLength(100)]],
+  type: ['', Validators.required],
+  date: ['', Validators.required],
+  time: ['', Validators.required],
+  description: ['', [Validators.maxLength(500)]],
+  lectures: [''],
+  practicals: [''],
+  hours: ['']
+});
+
+
 
     // Set default date to today
     const today = new Date().toISOString().split('T')[0];
     this.taskForm.patchValue({ date: today });
   }
 
-  onSubmit(data:any): void {
-    console.log(this.taskForm.value)
-    if (this.taskForm.valid) {
-      this.databaseService.addTask(data);
+  onSubmit(data: any): void {
+  console.log(this.taskForm.value);
 
-      // Reset form after submission
-      this.taskForm.reset();
-      
-      alert('Task added successfully!');
-    } else {
-      // Mark all fields as touched to show validation messages
-      this.markFormGroupTouched(this.taskForm);
-    }
+  if (this.taskForm.valid) {
+    // 1. Save to database (your original logic)
+    this.databaseService.addTask(data);
+
+    // 2. Save to localStorage
+   const taskToAdd = {
+  subject: data.subject,
+  type: data.type,
+  date: data.date,
+  time: data.time,
+  description: data.description,
+  lectures: data.lectures || '', 
+  practicals: data.practicals || '',
+  hours: data.hours || ''
+};
+
+
+    const existingTasks = JSON.parse(localStorage.getItem('facultyTasks') || '[]');
+    existingTasks.push(taskToAdd);
+    localStorage.setItem('facultyTasks', JSON.stringify(existingTasks));
+    this.taskForm.reset();
+
+    const today = new Date().toISOString().split('T')[0];
+    this.taskForm.patchValue({ date: today });
+
+    alert('Task added successfully!');
+  } else {
+    this.markFormGroupTouched(this.taskForm);
   }
-
-
-  // Helper method to mark all form fields as touched
+}
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
@@ -61,8 +82,6 @@ export class AddTaskComponent implements OnInit {
       }
     });
   }
-
-  // Convenience getters for easy access in template
   get subject() { return this.taskForm.get('subject'); }
   get type() { return this.taskForm.get('type'); }
   get date() { return this.taskForm.get('date'); }
