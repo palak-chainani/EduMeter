@@ -7,10 +7,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent {
-
   constructor(private router: Router) {}
 
   navigateTo(route: string): void {
-    this.router.navigate([`/admin/${route}`]);
+    // Add error handling
+    this.router.navigate([route]).catch(err => {
+      console.error('Navigation error:', err);
+      // Optionally redirect to error page or show message
+    });
   }
+
+  
 }

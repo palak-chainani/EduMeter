@@ -16,38 +16,39 @@ const routes: Routes = [
     path:'login',
     component:LoginComponent
   },
-  { path: 'faculty-dashboard',
+  { path: 'faculty/faculty-dashboard',
     component: DashboardComponent 
   },
-  { path: 'add-task',
+  { path: 'faculty/add-task',
     component: AddTaskComponent 
   },
-  { path: 'summary',
+  { path: 'faculty/summary',
     component: SummaryComponent 
   },
-  { path: 'task-log',
+  { path: 'faculty/task-log',
     component: TasklogComponent 
   },
   {
-    path: 'admin-dashboard',
+    path: 'admin/admin-dashboard',
     component: AdminDashboardComponent
   },
   {
-    path: 'add-teacher',
+    path: 'admin/add-teacher',
     component: AddTeacherComponent
   },
   {
-    path: 'teacher-list',
+    path: 'admin/teacher-list',
     component: TeacherListComponent
   },
   {
-    path: 'salary-calculation',
+    path: 'admin/salary-calculation',
     component: SalaryCalculationComponent
   },
   { path: '**', 
     redirectTo: 'login',
      pathMatch: 'full'
   },
+  
 
 ];
 

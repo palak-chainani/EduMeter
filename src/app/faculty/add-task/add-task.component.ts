@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DatabaseService } from 'src/app/database.service';
 
 @Component({
   selector: 'app-add-task',
@@ -12,7 +13,8 @@ export class AddTaskComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private databaseService: DatabaseService
   ) { }
 
   ngOnInit(): void {
@@ -33,23 +35,14 @@ export class AddTaskComponent implements OnInit {
     this.taskForm.patchValue({ date: today });
   }
 
-  onSubmit(): void {
+  onSubmit(data:any): void {
+    console.log(this.taskForm.value)
     if (this.taskForm.valid) {
-      // Here you would typically send the data to your backend service
-      const formData = this.taskForm.value;
-      console.log('Form submitted:', formData);
-      
-      // Combine date and time into a single datetime string if needed
-      const taskDateTime = `${formData.date}T${formData.time}`;
-      console.log('Combined datetime:', taskDateTime);
+      this.databaseService.addTask(data);
 
       // Reset form after submission
       this.taskForm.reset();
       
-      // Navigate back to dashboard or show success message
-      this.router.navigate(['/faculty/dashboard']);
-      
-      // You could also add a success notification here
       alert('Task added successfully!');
     } else {
       // Mark all fields as touched to show validation messages
@@ -57,11 +50,6 @@ export class AddTaskComponent implements OnInit {
     }
   }
 
-  onCancel(): void {
-    if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
-      this.router.navigate(['/faculty/dashboard']);
-    }
-  }
 
   // Helper method to mark all form fields as touched
   private markFormGroupTouched(formGroup: FormGroup) {

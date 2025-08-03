@@ -6,28 +6,22 @@
   <div class="main-content">
     <div class="form-container">
       <h2>Add New Teacher</h2>
-      
-      <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" class="teacher-form">
+
+      <form [formGroup]="teacherForm" (ngSubmit)="onSubmit(this.teacherForm.value)" class="teacher-form">
         <div class="form-row">
           <div class="form-group">
             <label for="firstName">First Name</label>
             <input id="firstName" type="text" formControlName="firstName" placeholder="Enter first name">
-            <div class="error" *ngIf="teacherForm.get('firstName')?.invalid && 
-                                    (teacherForm.get('firstName')?.dirty || teacherForm.get('firstName')?.touched)">
-              <span *ngIf="teacherForm.get('firstName')?.errors?.['required']">
-                First name is required
-              </span>
+            <div class="error" *ngIf="teacherForm.get('firstName')?.invalid && teacherForm.get('firstName')?.touched">
+              First name is required
             </div>
           </div>
 
           <div class="form-group">
             <label for="lastName">Last Name</label>
             <input id="lastName" type="text" formControlName="lastName" placeholder="Enter last name">
-            <div class="error" *ngIf="teacherForm.get('lastName')?.invalid && 
-                                    (teacherForm.get('lastName')?.dirty || teacherForm.get('lastName')?.touched)">
-              <span *ngIf="teacherForm.get('lastName')?.errors?.['required']">
-                Last name is required
-              </span>
+            <div class="error" *ngIf="teacherForm.get('lastName')?.invalid && teacherForm.get('lastName')?.touched">
+              Last name is required
             </div>
           </div>
         </div>
@@ -35,14 +29,9 @@
         <div class="form-group">
           <label for="email">Email</label>
           <input id="email" type="email" formControlName="email" placeholder="Enter email">
-          <div class="error" *ngIf="teacherForm.get('email')?.invalid && 
-                                  (teacherForm.get('email')?.dirty || teacherForm.get('email')?.touched)">
-            <span *ngIf="teacherForm.get('email')?.errors?.['required']">
-              Email is required
-            </span>
-            <span *ngIf="teacherForm.get('email')?.errors?.['email']">
-              Please enter a valid email
-            </span>
+          <div class="error" *ngIf="teacherForm.get('email')?.invalid && teacherForm.get('email')?.touched">
+            <span *ngIf="teacherForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="teacherForm.get('email')?.errors?.['email']">Invalid email format</span>
           </div>
         </div>
 
@@ -50,25 +39,44 @@
           <label for="subject">Subject</label>
           <select id="subject" formControlName="subject">
             <option value="" disabled selected>Select subject</option>
-            <option *ngFor="let subject of subjects" [value]="subject">
-              {{subject}}
-            </option>
+            <option *ngFor="let subject of subjects" [value]="subject">{{ subject }}</option>
           </select>
-          <div class="error" *ngIf="teacherForm.get('subject')?.invalid && 
-                                  (teacherForm.get('subject')?.dirty || teacherForm.get('subject')?.touched)">
-            <span *ngIf="teacherForm.get('subject')?.errors?.['required']">
-              Subject is required
+          <div class="error" *ngIf="teacherForm.get('subject')?.invalid && teacherForm.get('subject')?.touched">
+            Subject is required
+          </div>
+        </div>
+
+        <!-- ✅ Added Role Field -->
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select id="role" formControlName="role">
+            <option value="" disabled selected>Select role</option>
+            <option value="teacher">Teacher</option>
+            <option value="hod">HOD</option>
+            <option value="coordinator">Coordinator</option>
+          </select>
+          <div class="error" *ngIf="teacherForm.get('role')?.invalid && teacherForm.get('role')?.touched">
+            Role is required
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" placeholder="Enter password">
+          <div class="error" *ngIf="teacherForm.get('password')?.invalid && teacherForm.get('password')?.touched">
+            <span *ngIf="teacherForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="teacherForm.get('password')?.errors?.['minlength']">
+              Minimum 8 characters
             </span>
           </div>
         </div>
 
         <div class="form-actions">
-          <button type="submit" [disabled]="teacherForm.invalid" class="submit-btn">
+          <button type="submit" [disabled]="this.teacherForm.invalid" class="submit-btn">
             Add Teacher
           </button>
-          <button type="button" (click)="onCancel()" class="cancel-btn">
-            Cancel
-          </button>
+          
         </div>
       </form>
     </div>

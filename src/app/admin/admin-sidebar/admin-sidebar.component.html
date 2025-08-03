@@ -8,7 +8,7 @@
   <div class="sidebar-menu">
     <div *ngFor="let item of menuItems" 
          class="menu-item"
-         [class.active]="item.active">
+         [class.active]="item.active" (click)="navigateTo(item.path)">
       {{item.name}}
     </div>
   </div>

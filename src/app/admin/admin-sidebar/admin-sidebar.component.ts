@@ -7,23 +7,28 @@ import { Router, Event, NavigationEnd } from '@angular/router';
   templateUrl: './admin-sidebar.component.html',
   styleUrls: ['./admin-sidebar.component.css']
 })
-export class AdminSidebarComponent implements OnInit {
+export class AdminSidebarComponent{
   menuItems = [
-    { name: 'Admin Dashboard', active: false },
-    { name: 'Approve Tasks', active: false },
-    { name: 'Add Teacher', active: false },
-    { name: 'Salary Calculation', active: false },
-    { name: 'Teacher List', active: false },
-    { name: 'Logout ', active: false }, 
-    // { name: 'function', active: false },
-    // { name: 'Summarize to ref.', active: false },
-    // { name: 'Taskskey', active: false }
+    { name: 'Admin Dashboard',path: '/admin/admin-dashboard', active: false },
+    // { name: 'Approve Tasks', path: '/admin/approve-tasks', active: false },
+    { name: 'Add Teacher', path: '/admin/add-teacher', active: false },
+    { name: 'Salary Calculation', path: '/admin/salary-calculation', active: false },
+    { name: 'Teacher List', path: '/admin/teacher-list', active: false },
+    { name: 'Logout ', path: 'logout', active: false }, 
   ];
 
-  constructor(private router: Router) {}
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    constructor(private router: Router) {
+    // Current URL check karo
+    const currentPath = this.router.url;
+    
+    // Jo bhi menu item ka path current URL se match kare, uska active=true karo
+    this.menuItems.forEach(item => {
+      item.active = currentPath.startsWith(item.path);
+    });
+  
   }
 
-
+   navigateTo(path: string) {
+    this.router.navigateByUrl(path);;
+  }
 }

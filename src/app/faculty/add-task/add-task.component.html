@@ -7,7 +7,7 @@
     <div class="add-task-wrapper">
       <h2>Add Task</h2>
 
-      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmit(this.taskForm.value)" class="task-form">
         <div class="form-row">
           <div class="form-group">
             <label for="subject">Subject</label>
@@ -45,9 +45,6 @@
         <div class="form-actions">
           <button type="submit" class="submit-btn" [disabled]="taskForm.invalid">
             <i class="fas fa-plus"></i> Add Task
-          </button>
-          <button type="button" class="cancel-btn" (click)="onCancel()">
-            Cancel
           </button>
         </div>
       </form>

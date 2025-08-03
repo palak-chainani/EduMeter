@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DatabaseService } from 'src/app/database.service';
 
 @Component({
   selector: 'app-add-teacher',
@@ -8,33 +9,55 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-teacher.component.css']
 })
 export class AddTeacherComponent implements OnInit {
-  teacherForm!: FormGroup;
-  subjects = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'English'];
+  teacherForm: FormGroup;
+
+  subjects = [
+    'Mathematics',
+    'Physics',
+    'Chemistry',
+    'Biology',
+    'Computer Science',
+    'English'
+  ];
+
+  roles = ['teacher', 'hod', 'coordinator']; // ✅ Extra roles, optional
 
   constructor(
     private fb: FormBuilder,
+    private databaseService: DatabaseService,
     private router: Router
   ) {
+    // ✅ Updated form group with role
     this.teacherForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required]
+      subject: ['', Validators.required],
+      role: ['', Validators.required], // ✅ NEW FIELD
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
   ngOnInit(): void {}
 
-  onSubmit(): void {
+  onSubmit(data: any) {
     if (this.teacherForm.valid) {
-      console.log('Form submitted:', this.teacherForm.value);
-      // Here you would typically call a service to add the teacher
+      console.log('Teacher added:', this.teacherForm.value);
+
+      //Add role along with other data to local storage or service
+      this.databaseService.addNewTeacher(data);
+
+      alert('Teacher added successfully!');
+
+      //Redirect to teacher list or wherever you want
       this.router.navigate(['/admin/teachers']);
+    } else {
+      this.teacherForm.markAllAsTouched();
     }
   }
 
   onCancel(): void {
-    if (confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+    if (confirm('Discard changes?')) {
       this.router.navigate(['/admin/teachers']);
     }
   }

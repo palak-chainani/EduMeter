@@ -1,54 +1,71 @@
-<div class="page-container">
-  <!-- Admin Sidebar -->
+<div class="admin-container">
+  <!-- Sidebar -->
   <app-admin-sidebar></app-admin-sidebar>
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="header">
-      <h2>Teacher Management</h2>
-      <button class="add-btn" (click)="navigateToAddTeacher()">
-        <i class="fas fa-plus"></i> Add Teacher
-      </button>
+    <div class="content-header">
+      <h2>Teacher Task Approvals</h2>
     </div>
 
-    <div class="table-container">
-      <table class="teacher-table">
+    <div class="task-table-container">
+      <table class="task-table">
         <thead>
           <tr>
             <th>Name</th>
             <th>Email</th>
             <th>Subject</th>
+            <th>Task Type</th>
+            <th>Quantity</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let teacher of teachers">
-            <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
-            <td>{{ teacher.email }}</td>
-            <td>{{ teacher.subject }}</td>
+          <tr *ngFor="let task of tasks">
+            <td>{{ task.teacherName }}</td>
+            <td>{{ task.teacherEmail }}</td>
+            <td>{{ task.subject }}</td>
+            <td>{{ task.type }}</td>
+            <td>{{ task.quantity }}</td>
             <td>
-              <span class="status-badge" [ngClass]="getStatusClass(teacher.status)">
-                {{ teacher.status }}
-              </span>
+              <span class="status-badge" [ngClass]="{
+                'pending': task.status === 'Pending',
+                'approved': task.status === 'Approved',
+                'rejected': task.status === 'Rejected'
+              }">{{ task.status }}</span>
             </td>
             <td class="actions">
-              <button class="edit-btn" (click)="editTeacher(teacher.id)">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button class="delete-btn" (click)="deleteTeacher(teacher.id)">
-                <i class="fas fa-trash"></i> Delete
-              </button>
-              <button *ngIf="teacher.status === 'Pending'" class="approve-btn" (click)="updateStatus(teacher.id, 'Approved')">
-                <i class="fas fa-check"></i> Approve
-              </button>
-              <button *ngIf="teacher.status === 'Pending'" class="reject-btn" (click)="updateStatus(teacher.id, 'Rejected')">
-                <i class="fas fa-times"></i> Reject
-              </button>
+              <button
+                *ngIf="task.status === 'Pending'"
+                class="btn-approve"
+                (click)="approveTask(task.id)">Approve</button>
+
+              <button
+                *ngIf="task.status === 'Pending'"
+                class="btn-reject"
+                (click)="openRejectModal(task)">Reject</button>
+
+              <button
+                *ngIf="task.status !== 'Pending'"
+                class="btn-view"
+                (click)="viewDetails(task.id)">View</button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Reject Modal -->
+    <div *ngIf="showRejectModal" class="modal-overlay">
+      <div class="modal">
+        <h3>Rejection Reason</h3>
+        <textarea [(ngModel)]="rejectionReason" rows="3"></textarea>
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="cancelReject()">Cancel</button>
+          <button class="btn-confirm" (click)="confirmReject()">Confirm</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

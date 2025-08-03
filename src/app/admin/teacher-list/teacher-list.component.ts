@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 
-interface Teacher {
+interface Task {
   id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  teacherName: string;
+  teacherEmail: string;
   subject: string;
+  type: 'Lecture' | 'Practical' | 'Meeting';
+  quantity: number;
   status: 'Pending' | 'Approved' | 'Rejected';
+  rejectionReason?: string;
 }
 
 @Component({
@@ -15,60 +17,83 @@ interface Teacher {
   styleUrls: ['./teacher-list.component.css']
 })
 export class TeacherListComponent {
-  teachers: Teacher[] = [
-    { 
-      id: 1, 
-      firstName: 'John', 
-      lastName: 'Doe', 
-      email: 'john.doe@school.edu', 
+  tasks: Task[] = [
+    {
+      id: 1,
+      teacherName: 'John Doe',
+      teacherEmail: 'john.doe@school.edu',
       subject: 'Mathematics',
-      status: 'Approved'
-    },
-    { 
-      id: 2, 
-      firstName: 'Jane', 
-      lastName: 'Smith', 
-      email: 'jane.smith@school.edu', 
-      subject: 'Physics',
+      type: 'Lecture',
+      quantity: 4,
       status: 'Pending'
     },
-    { 
-      id: 3, 
-      firstName: 'Robert', 
-      lastName: 'Johnson', 
-      email: 'robert.j@school.edu', 
+    {
+      id: 2,
+      teacherName: 'Jane Smith',
+      teacherEmail: 'jane.smith@school.edu',
+      subject: 'Physics',
+      type: 'Practical',
+      quantity: 2,
+      status: 'Pending'
+    },
+    {
+      id: 3,
+      teacherName: 'Robert Johnson',
+      teacherEmail: 'robert.j@school.edu',
       subject: 'Computer Science',
-      status: 'Rejected'
+      type: 'Meeting',
+      quantity: 1,
+      status: 'Approved'
+    },
+    {
+      id: 4,
+      teacherName: 'Sarah Williams',
+      teacherEmail: 'sarah.w@school.edu',
+      subject: 'Chemistry',
+      type: 'Lecture',
+      quantity: 3,
+      status: 'Rejected',
+      rejectionReason: 'Exceeds maximum allowed lectures'
     }
   ];
 
-  getStatusClass(status: string): string {
-    return `status-${status.toLowerCase()}`;
-  }
+  showRejectModal = false;
+  rejectionReason = '';
+  selectedTaskId: number | null = null;
 
-  updateStatus(teacherId: number, newStatus: 'Approved' | 'Rejected'): void {
-    const teacher = this.teachers.find(t => t.id === teacherId);
-    if (teacher) {
-      teacher.status = newStatus;
-      // In a real app, you would call a service to update the status
-      console.log(`Updated teacher ${teacherId} status to ${newStatus}`);
+  approveTask(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (task) {
+      task.status = 'Approved';
+      task.rejectionReason = undefined;
     }
   }
 
-  navigateToAddTeacher(): void {
-    console.log('Navigate to add teacher');
-    // Implement navigation
+  openRejectModal(task: Task) {
+    this.selectedTaskId = task.id;
+    this.rejectionReason = task.rejectionReason || '';
+    this.showRejectModal = true;
   }
 
-  editTeacher(id: number): void {
-    console.log('Edit teacher', id);
-    // Implement edit
+  cancelReject() {
+    this.showRejectModal = false;
+    this.selectedTaskId = null;
+    this.rejectionReason = '';
   }
 
-  deleteTeacher(id: number): void {
-    if (confirm('Are you sure you want to delete this teacher?')) {
-      this.teachers = this.teachers.filter(teacher => teacher.id !== id);
-      console.log('Deleted teacher', id);
+  confirmReject() {
+    if (this.selectedTaskId && this.rejectionReason.trim()) {
+      const task = this.tasks.find(t => t.id === this.selectedTaskId);
+      if (task) {
+        task.status = 'Rejected';
+        task.rejectionReason = this.rejectionReason;
+      }
+      this.cancelReject();
     }
+  }
+
+  viewDetails(taskId: number) {
+    // Implement view details logic
+    console.log('Viewing details for task:', taskId);
   }
 }
