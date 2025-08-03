@@ -11,39 +11,40 @@ import { Tasks } from 'src/app/interfaces/task.interface';
 export class TasklogComponent implements OnInit {
   tasks: Tasks[] = [];
 
-  constructor(private databaseService: DatabaseService, private router:Router) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    this.loadTasksForCurrentUser();
+  }
+
+  // ✅ Common method: always get fresh tasks for current user
+  loadTasksForCurrentUser() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
     const allTasks = this.databaseService.getTasks();
 
     this.tasks = allTasks
-      .filter((task: Tasks) => task.assignedBy === `${currentUser.firstName} ${currentUser.lastName}`)
+      .filter(
+        (task: Tasks) =>
+          task.assignedBy === `${currentUser.firstName} ${currentUser.lastName}`
+      )
       .map((task: Tasks) => ({
         ...task,
         date: new Date(task.date)
       }));
   }
 
-   //edit button pe call hoga
+  // ✅ Edit Task — always use service
   editTask(task: Tasks) {
-    this.databaseService.setTaskToEdit(task); // temp store karo
-    this.router.navigate(['faculty/add-task']); // Add Task page pe jao
+    this.databaseService.setTaskToEdit(task);
+    this.router.navigate(['faculty/add-task']);
   }
 
-deleteTask(task: any) {
-  this.databaseService.deleteTask(task);
-
-  const allTasks = this.databaseService.getTasks();
-  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
-
-  this.tasks = allTasks.filter(
-    (t: any) =>
-      t.assignedBy === `${currentUser.firstName} ${currentUser.lastName}`
-  );
-}
-
-
-
-
+  // ✅ Delete Task — delete & refresh list
+  deleteTask(task: Tasks) {
+    this.databaseService.deleteTask(task);
+    this.loadTasksForCurrentUser();
+  }
 }
