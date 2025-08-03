@@ -9,6 +9,7 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
 import { AddTeacherComponent } from './admin/add-teacher/add-teacher.component';
 import { TeacherListComponent } from './admin/teacher-list/teacher-list.component';
 import { SalaryCalculationComponent } from './admin/salary-calculation/salary-calculation.component';
+import { FilterBarComponent } from './faculty/filter-bar/filter-bar.component';
 
 const routes: Routes = [
   
@@ -43,6 +44,10 @@ const routes: Routes = [
   {
     path: 'admin/salary-calculation',
     component: SalaryCalculationComponent
+  },
+  {
+    path:'faculty/filterbar',
+    component:FilterBarComponent
   },
   { path: '**', 
     redirectTo: 'login',

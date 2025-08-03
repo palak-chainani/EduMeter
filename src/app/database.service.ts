@@ -19,7 +19,6 @@ export class DatabaseService {
     this.subjectDetails = savedDetails ? JSON.parse(savedDetails) : [];
   }
 
-  // ========== TEACHERS ==========
   addNewTeacher(data: any) {
     this.teachers.push(data);
     localStorage.setItem('teachers', JSON.stringify(this.teachers));
@@ -29,7 +28,6 @@ export class DatabaseService {
     return this.teachers;
   }
 
-  // ========== TASKS ==========
   addTask(data: any) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
 
@@ -53,8 +51,6 @@ export class DatabaseService {
   getTasks() {
     return this.tasks;
   }
-
-  // ========== SUBJECT DETAILS ==========
   addsubjectDetails(data: any) {
     this.subjectDetails.push(data);
     localStorage.setItem('subjectDetails', JSON.stringify(this.subjectDetails));
@@ -64,7 +60,6 @@ export class DatabaseService {
     return this.subjectDetails;
   }
 
-  // ========== TEACHING SUMMARY ==========
   saveTeachingSummary(summary: any) {
     localStorage.setItem('teachingSummaryData', JSON.stringify(summary));
   }

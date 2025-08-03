@@ -46,10 +46,6 @@
                 class="btn-reject"
                 (click)="openRejectModal(task)">Reject</button>
 
-              <button
-                *ngIf="task.status !== 'Pending'"
-                class="btn-view"
-                (click)="viewDetails(task.id)">View</button>
             </td>
           </tr>
         </tbody>

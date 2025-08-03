@@ -69,9 +69,29 @@ export class SummaryComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.initializeTeachers();
-    this.calculateTotal();
+     const savedData = localStorage.getItem('summaryData');
+  if (savedData) {
+    const parsed = JSON.parse(savedData);
+    this.selectedMonth = parsed.selectedMonth;
+    this.teachingData = parsed.teachingData;
+    this.subjectDetails = parsed.subjectDetails || [];
+  } else {
+    this.selectedMonth = this.months[0].value;
+    this.teachingData = this.monthlyTeachingData[this.selectedMonth];
+    this.subjectDetails = [];
   }
+
+  this.initializeTeachers();
+  this.calculateTotal();
+  }
+  saveToLocalStorage(): void {
+  const data = {
+    selectedMonth: this.selectedMonth,
+    teachingData: this.teachingData,
+    subjectDetails: this.subjectDetails
+  };
+  localStorage.setItem('summaryData', JSON.stringify(data));
+}
 
   initializeTeachers(): void {
     this.teachers = [
@@ -86,6 +106,7 @@ export class SummaryComponent implements OnInit {
     this.teachingData = this.monthlyTeachingData[this.selectedMonth];
     this.updateAllTeacherPay();
     this.calculateTotal();
+     this.saveToLocalStorage();
   }
 
   getRate(type: 'lecture' | 'practical' | 'projectMeeting'): number {

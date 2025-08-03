@@ -8,6 +8,7 @@ import { AddTaskComponent } from './add-task/add-task.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SummaryComponent } from './summary/summary.component';
 import { TasklogComponent } from './task-log/task-log.component';
+import { FilterBarComponent } from './filter-bar/filter-bar.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { TasklogComponent } from './task-log/task-log.component';
     AddTaskComponent,
     DashboardComponent,
     SummaryComponent,
-    TasklogComponent
+    TasklogComponent,
+    FilterBarComponent
   ],
   imports: [
     CommonModule,
