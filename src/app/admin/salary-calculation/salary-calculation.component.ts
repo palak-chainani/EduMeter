@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 interface Teacher {
   id: number;
@@ -19,6 +19,8 @@ interface Month {
   styleUrls: ['./salary-calculation.component.css']
 })
 export class SalaryCalculationComponent implements OnInit {
+  @ViewChild('reportContent', { static: false }) reportContent!: ElementRef;
+
   teachers: Teacher[] = [
     { id: 1, name: 'Dr. Sharma', type: 'lecture', hours: 40, pay: 16000 },
     { id: 2, name: 'Prof. Patel', type: 'practical', hours: 30, pay: 15000 },
@@ -68,13 +70,5 @@ export class SalaryCalculationComponent implements OnInit {
     this.calculateSalaries();
   }
 
-  generateReport(): void {
-    console.log('Generating report for:', {
-      month: this.selectedMonth,
-      rates: this.rates,
-      teachers: this.teachers,
-      total: this.totalPayroll
-    });
-    alert('Report generation functionality would be implemented here');
-  }
+ 
 }

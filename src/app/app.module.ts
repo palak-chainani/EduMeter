@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FacultyModule } from './faculty/faculty.module';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,8 +14,9 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     FacultyModule,
+    AuthModule,
     AdminModule,
-    AuthModule
+    FormsModule
   ],
   bootstrap: [AppComponent]
 })

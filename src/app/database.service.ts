@@ -4,73 +4,56 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DatabaseService {
-  teachers!: any
-  tasks!: any
+  teachers: any[] = [];
+  tasks: any[] = [];
+  subjectDetails!: any;
   taskToEdit: any = null;
 
   constructor() {
     const savedTeachers = localStorage.getItem('teachers');
     const savedTasks = localStorage.getItem('tasks');
-
     this.teachers = savedTeachers ? JSON.parse(savedTeachers) : [];
-    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
-  }
+    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];  }
 
-  // when clicked on edit btn this function will run
-   setTaskToEdit(task: any) {
-    this.taskToEdit = task; // temp memory
-  }
-
-  //Jab Add Task page open ho toh ye get karna
-  getTaskToEdit() {
-    return this.taskToEdit;
-  }
-
-  // when finished editing clear it
-  clearTaskToEdit() {
-    this.taskToEdit = null;
-  }
-
-  // Special: agar edit mode mein ho, toh old task ko overwrite karo
-  updateTask(updatedTask: any) {
-    const index = this.tasks.findIndex(
-      (t: any) => 
-        t.subject === updatedTask.subject &&
-        t.date === updatedTask.date
-    );
-
-    if (index !== -1) {
-      this.tasks[index] = updatedTask;
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    }
-  }
-
+  // ✅ Teacher Methods
   addNewTeacher(data: any) {
-    this.teachers.push(data)
+    this.teachers.push(data);
     localStorage.setItem('teachers', JSON.stringify(this.teachers));
   }
-
-  getTasks() {
-    return this.tasks
-  }
-
   getTeachers() {
     return this.teachers;
   }
 
+ // ✅ Tasks
+  getTasks() {
+    // Hamesha fresh localStorage se read karo
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  }
   addTask(data: any) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+    const addnewSubject = {
+      ...data,
+      subjectName: data.subjectName,
+    };
 
+    this.subjectDetails.push(addnewSubject);
+    localStorage.setItem('subjectDetails', JSON.stringify(this.subjectDetails));
+    const taskWithMeta = {
+      ...data,
+      assignedBy: `${currentUser.firstName} ${currentUser.lastName}`,
+      status: 'Pending',
+      hours: 0 // 
+    };
     const taskWithTeacher = {
       ...data,
       assignedBy: currentUser.firstName + ' ' + currentUser.lastName
     };
-
-    this.tasks.push(taskWithTeacher);
+    this.tasks.push(taskWithMeta);
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
-
-deleteTask(taskToDelete: any) {
+  
+  deleteTask(taskToDelete: any) {
   const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
   // tasks list ko filter karo jo match na kare
@@ -91,4 +74,47 @@ deleteTask(taskToDelete: any) {
 }
 
 
+  setTaskToEdit(task: any) {
+    localStorage.setItem('taskToEdit', JSON.stringify(task));
+  }
+
+  getTaskToEdit() {
+    const task = localStorage.getItem('taskToEdit');
+    return task ? JSON.parse(task) : null;
+  }
+
+  clearTaskToEdit() {
+    localStorage.removeItem('taskToEdit');
+  }
+
+  
+  getSubjectDetails() {
+  const savedDetails = localStorage.getItem('subjectDetails');
+  return savedDetails ? JSON.parse(savedDetails) : [];
+}
+
+
+  updateTask(updatedTask: any) {
+    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+    const index = tasks.findIndex(
+      (t: any) =>
+        t.subject === updatedTask.subject &&
+        t.date === updatedTask.date &&
+        t.time === updatedTask.time &&
+        t.assignedBy === updatedTask.assignedBy
+    );
+
+    if (index !== -1) {
+      tasks[index] = {
+        ...tasks[index],
+        ...updatedTask
+      };
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      this.tasks = tasks;
+    }   
+  }
+clearTeachingSummary() {
+    localStorage.removeItem('teachingSummaryData');
+  }
 }
